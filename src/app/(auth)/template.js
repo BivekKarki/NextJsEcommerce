@@ -1,17 +1,13 @@
 'use client'
-import Link from 'next/link'
+import Link from 'next/link';
 import React, { useState } from 'react'
 
-function AuthLayout({children}) {
+function AuthTemplate({ children }) {
     const [value, setValue] = useState("");
 
   return (
-    <div>
-      <nav className='flex justify-around p-5'>
-        <Link href={'/login'}>Login</Link>
-        <Link href={'/register'}>Register</Link>
-        <Link href={'/forgot-password'}>Forgot password</Link>
-      </nav>
+    <div className='mt-5'>
+        <h2 className='text-xl'>Template</h2>
       
       <input 
         onChange={(e)=>{setValue(e.target.value)}} 
@@ -31,4 +27,4 @@ function AuthLayout({children}) {
   )
 }
 
-export default AuthLayout;
+export default AuthTemplate

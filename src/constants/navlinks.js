@@ -17,6 +17,10 @@ const navLinks = [
         label: "Products",
         route: PRODUCT_ROUTES,
     },
+    {
+        label: "Users",
+        route: "/users",
+    },
 ]
 
 export default navLinks;
