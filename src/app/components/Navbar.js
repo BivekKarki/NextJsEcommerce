@@ -10,7 +10,7 @@ function Navbar() {
     const pathName = usePathname();
     
   return (
-      <nav className=' md:w-1/2 flex justify-between '>
+      <nav className=' md:w-1/2 flex justify-between text-white'>
         {navLinks.map((navLink, index) => {
             const isActive = 
             navLink.route == HOME_ROUTES

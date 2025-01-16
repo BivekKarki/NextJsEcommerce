@@ -12,15 +12,16 @@ async function UsersPage() {
         throw new Error("Something went wrong");
     }
 
-    return <div>
-        {users.map((user)=>(
-            <div key={user.id} className="my-4 mx-12">
-                <p>Name: {user.name}</p>
-                <p>Phone: {user.phone}</p>
-                <p>Email: {user.email}</p>
-            </div>
-        ))}
-    </div>
+    return (
+        <div className="flex items-center justify-center flex-col container mx-auto py-1">
+            <h1 className="text-xl font-bold">Users List</h1>
+            {users.map((user)=>(
+                <div key={user.id} className="w-full bg-slate-700 px-8 py-3 my-3 ">
+                    <p className="w-full h-6 text-white">Name: {user.name}</p>
+                </div>
+            ))}
+        </div>
+    )
 }
 
 export default UsersPage;
