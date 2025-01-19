@@ -1,4 +1,4 @@
-import config from '@/config/config'
+import config from '@/config/config.js'
 import navLinks from '@/constants/navlinks'
 import { HOME_ROUTES } from '@/constants/routes'
 import Link from 'next/link'
@@ -7,14 +7,13 @@ import React from 'react'
 const Header = () => {
   return (
 
-
   <div className="antialiased bg-gray-100 dark-mode:bg-gray-900 shadow-lg sticky top-0">
-  <div className="w-full text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800">
+  <div className="w-full text-gray-700 bg-white dark:text-gray-200 dark:bg-gray-900">
     <div  className="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
       <div className="flex flex-row items-center justify-between p-4">
         <a href={HOME_ROUTES} 
             className="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark-mode:text-white focus:outline-none focus:shadow-outline">
-            Flowtrail UI
+            {config.appName}
         </a>
         <button className="rounded-lg md:hidden focus:outline-none focus:shadow-outline">
           <svg fill="currentColor" viewBox="0 0 20 20" className="w-6 h-6">
