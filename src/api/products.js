@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 async function getAllProducts() {
-    const response = await axios.get(`${config.apiUrl}/api/products?limit=10`);
+    const response = await axios.get(`${config.apiUrl}/api/products?limit=10&sort={"createdAt":-1}`);
     return response.data;
 }
 
@@ -22,4 +22,16 @@ async function addProduct(data) {
     return response.data;
 }
 
-export {getAllProducts, getProductById, addProduct};
+async function editProduct(id,data){
+    const response = await axios.put(`${config.apiUrl}/api/products/${id}`, 
+        data, 
+        {
+            headers: {
+                Authorization: `Bearer ${config.apiToken}`,
+            },
+    })
+
+    return response.data;
+}
+
+export {getAllProducts, getProductById, addProduct, editProduct};

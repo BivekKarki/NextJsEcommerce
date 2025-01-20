@@ -1,17 +1,20 @@
 'use client'
-import { addProduct } from '@/api/products';
+import { addProduct, editProduct } from '@/api/products';
+import { PRODUCT_ROUTES } from '@/constants/routes';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast, ToastContainer } from 'react-toastify';
 
-function ProductAddForm() {
+function ProductAddForm({isEditing = false, product}) {
     // const form = useForm();
     const { 
         register, 
         handleSubmit, 
         formState: {errors}, 
-        } = useForm();
+        } = useForm({
+            values: product,
+        });
     // const {name, ref, onChange, onBlur} = register("name")
 
     const [loading, setLoading] = useState(false);
@@ -21,10 +24,19 @@ function ProductAddForm() {
     async function submitForm(data) {
         setLoading(true);
         try {
-            await addProduct(data);
-            toast.success("Product added successfully",{
+
+            isEditing 
+            ? await editProduct(product._id, data)
+            : await addProduct(data);
+            
+
+           
+            toast.success(isEditing?"Edited details successfully":"Product added successfully",{
                 autoClose:1500,
-                onClose: ()=> router.back(),
+                onClose: ()=> {
+                    router.refresh();
+                    router.push(PRODUCT_ROUTES)
+                },
             })
         } catch (error) {
             console.log(error);
@@ -111,7 +123,12 @@ function ProductAddForm() {
             <input 
                 className='bg-primary-600 text-white px-10 py-2 rounded hover:cursor-pointer disabled:cursor-not-allowed' 
                 type='submit' 
-                value={loading ? "Submitting...":"Add Product"}
+                value={loading 
+                    ? "Submitting..."
+                    : isEditing
+                    ? "Edit Product"
+                    : "Add Product"
+                }
             />
         </div>
         <ToastContainer />
