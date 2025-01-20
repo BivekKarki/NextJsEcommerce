@@ -1,23 +1,39 @@
 'use client'
 import { addProduct } from '@/api/products';
-import React from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast, ToastContainer } from 'react-toastify';
 
 function ProductAddForm() {
     // const form = useForm();
-    const { register, handleSubmit } = useForm();
+    const { 
+        register, 
+        handleSubmit, 
+        formState: {errors}, 
+        } = useForm();
     // const {name, ref, onChange, onBlur} = register("name")
 
-    function submitForm(data) {
-        console.log(data)
+    const [loading, setLoading] = useState(false);
 
-        addProduct(data)
-        .then(res=>{
-            console.log(res);
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
+    const router = useRouter();
+
+    async function submitForm(data) {
+        setLoading(true);
+        try {
+            await addProduct(data);
+            toast.success("Product added successfully",{
+                autoClose:1500,
+                onClose: ()=> router.back(),
+            })
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data);
+        } finally {
+            setLoading(false);
+        }
+
+      
     }
   return (
     <div className='w-full sm:w-2/3 md:w-1/2 p-16  shadow-xl rounded-3xl bg-gray-50 dark:bg-gray-700'>
@@ -31,13 +47,16 @@ function ProductAddForm() {
             <input 
                 type='text' 
                 id='name' 
-                {...register("name")}
+                {...register("name", {
+                    required: 'Product name is required'
+                })}
                 // name='name'
                 // onChange={onChange}
                 // onBlur={onBlur}
                 // ref={ref}
                 className='border border-gray-500 rounded px-3 py-1 w-full shado-md mt-1 dark:text-white dark:bg-zinc-600'
             />
+            <p className='text-red-500 text-sm'>{errors.name?.message}</p>
         </div>
         
         <div className='py-2'>
@@ -77,17 +96,25 @@ function ProductAddForm() {
             <input 
                 type='number' 
                 id='price' 
-                {...register("price")}
+                {...register("price", {
+                    required: "Price is required!",
+                    min: {
+                        value: 0,
+                        message: "Products price must be positive value"
+                    }
+                })}
                 className='border border-gray-500 rounded px-3 py-1 w-full shado-md mt-1 dark:text-white dark:bg-zinc-600'
             />
+            <p className='text-red-500 text-sm'>{errors.price?.message}</p>
         </div>
         <div className='w-full flex justify-center pt-5'>
             <input 
-                className='bg-primary-600 text-white px-10 py-2 rounded hover:cursor-pointer' 
+                className='bg-primary-600 text-white px-10 py-2 rounded hover:cursor-pointer disabled:cursor-not-allowed' 
                 type='submit' 
-                value="Add product" 
+                value={loading ? "Submitting...":"Add Product"}
             />
         </div>
+        <ToastContainer />
 
       </form>
     </div>

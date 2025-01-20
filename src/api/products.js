@@ -13,7 +13,12 @@ async function getProductById(id){
 }
 
 async function addProduct(data) {
-    const response = await axios.post(`${config.apiUrl}/api/products`, data);
+    const response = await axios.post(`${config.apiUrl}/api/products`, data, {
+        headers: {
+            Authorization: `Bearer ${config.apiToken}`,
+        },
+    });
+    
     return response.data;
 }
 
