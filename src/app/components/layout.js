@@ -5,7 +5,7 @@ export default function Componentlayout({children}) {
     <div>
         <h1 className='text-5xl text-white mb-5'>This is component layout header</h1>
       <div className='bg-primary-500'>
-        {children}
+        {/* {children} */}
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import config from '@/config/config.js'
 import navLinks from '@/constants/navlinks'
-import { HOME_ROUTES } from '@/constants/routes'
+import { HOME_ROUTES, lOGIN_ROUTES } from '@/constants/routes'
 import Link from 'next/link'
 import React from 'react'
 
@@ -32,6 +32,9 @@ const Header = () => {
                 {navlink.label}
             </Link>
         ))}
+
+        <Link href={lOGIN_ROUTES}  className="px-4 py-2 mt-2 text-sm font-semibold font-nunito bg-primary-500 text-white rounded-lg dark:bg-transparent dark:hover:bg-gray-600 dark:focus:bg-gray-600  md:mt-0 md:ml-4 hover:bg-primary-600 focus:bg-primary-600 focus:outline-none focus:shadow-outline" 
+            >Login</Link>
        
       </nav>
     </div>

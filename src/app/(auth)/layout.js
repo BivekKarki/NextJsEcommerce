@@ -1,33 +1,26 @@
 'use client'
-import Link from 'next/link'
-import React, { useState } from 'react'
+import React from 'react'
+import Image from 'next/image';
+import ecommerce from '../../../public/assets/images/ecommerce.png'
+
 
 function AuthLayout({children}) {
-    const [value, setValue] = useState("");
-
+    
   return (
-    <div>
-      <nav className='flex justify-around p-5'>
-        <Link href={'/login'}>Login</Link>
-        <Link href={'/register'}>Register</Link>
-        <Link href={'/forgot-password'}>Forgot password</Link>
-      </nav>
-      
-      <input 
-        onChange={(e)=>{setValue(e.target.value)}} 
-        type='text' 
-        className='text-black'
-    />
-
-      <button 
-        onClick={()=>{
-            alert(value);
-        }}
-      >Submit
-      </button>
-
-      <div>{children}</div>
-    </div>
+      <div className='shadow-xl min-h-[80svh] rounded-2xl flex items-center justify-between p-10 lg:m-10'>
+           <div className='w-1/2 mr-10 p-5 hidden md:block'>
+             <Image 
+               src={ecommerce}
+               alt='Auth Image'
+               height={300}
+               width={500}
+               className='w-full'
+             />
+           </div>
+     
+           {children}
+         </div>
+    
   )
 }
 

@@ -1,6 +1,6 @@
 import config from '@/config/config.js';
 import axios from "axios";
-
+import { authToken } from './api';
 
 async function getAllProducts() {
     const response = await axios.get(`${config.apiUrl}/api/products?limit=10&sort={"createdAt":-1}`);
@@ -27,7 +27,7 @@ async function editProduct(id,data){
         data, 
         {
             headers: {
-                Authorization: `Bearer ${config.apiToken}`,
+                Authorization: `Bearer ${authToken}`,
             },
     })
 
