@@ -4,12 +4,11 @@ import Link from 'next/link';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { MdOutlineEmail } from 'react-icons/md';
-import { BsEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import { RiLockPasswordLine } from "react-icons/ri";
 import { toast, ToastContainer } from 'react-toastify';
 import Spinner from '../Spinner';
 import { login } from '@/api/auth';
 import { useRouter } from 'next/navigation';
+import PasswordField from './PasswordField';
 
 export default function LoginForm() {
 
@@ -19,13 +18,8 @@ export default function LoginForm() {
         handleSubmit,
     } = useForm();
     const [loading, setLoading] = useState(false);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
+   
     const router = useRouter();
-
-    function togglePasswordVisiblity(){
-        return setIsPasswordVisible(!isPasswordVisible);
-    }
 
     async function submitForm(data){
         setLoading(true);
@@ -43,7 +37,6 @@ export default function LoginForm() {
         }finally{
             setLoading(false);
         }
-        return "login"
     }
 
   return (
@@ -64,8 +57,18 @@ export default function LoginForm() {
             </div>
             <p className='text-red-500 text-sm'>{errors.email?.message}</p>
         </div>
+
+        <PasswordField 
+            id="password" 
+            placeholder="Password" 
+            {...register("password",{
+                required: "Password cannot be empty"
+            })}
+        />
+        <p className='text-red-500 text-sm'>{errors.password?.message}</p>
+
         
-        <div className='py-2'>
+        {/* <div className='py-2'>
             
 
             <div className='flex items-center border-b border-gray-500 dark:text-white '>
@@ -88,7 +91,7 @@ export default function LoginForm() {
             
             </div>
                 <p className='text-red-500 text-sm'>{errors.password?.message}</p>
-        </div>
+        </div> */}
 
         <div className="flex flex-col sm:flex-row justify-between mb-3">
         <div>

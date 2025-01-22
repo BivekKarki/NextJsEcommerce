@@ -1,3 +1,4 @@
+import RegisterForm from '@/app/components/auth/RegisterForm'
 import React from 'react'
 
 const RegisterPage = () => {
@@ -6,7 +7,7 @@ const RegisterPage = () => {
           <h3 className="text-3xl mb-5 font-bold text-textColor dark:text-white">
             Register
           </h3>
-          <LoginForm />
+          <RegisterForm />
         </div>
   )
 }
