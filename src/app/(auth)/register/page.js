@@ -2,9 +2,12 @@ import React from 'react'
 
 const RegisterPage = () => {
   return (
-    <div>
-      RegisterPage
-    </div>
+    <div className="w-full md:w-2/3 lg:w-1/3">
+          <h3 className="text-3xl mb-5 font-bold text-textColor dark:text-white">
+            Register
+          </h3>
+          <LoginForm />
+        </div>
   )
 }
 
