@@ -26,12 +26,15 @@ export default function LoginForm() {
         try {
             const response = await login(data.email, data.password)
             localStorage.setItem("authToken", response.token);
-            toast.success("Login successful");
+            toast.success("Login successful",{
+                autoClose: 1500,
+                onClose: ()=> router.push(HOME_ROUTES),
+            });
             router.push(HOME_ROUTES);
             setLoading(false);
         } catch (error) {
             console.log(error);
-            toast.error(error.response.message,{
+            toast.error(error.response.data,{
                 autoClose: 1500,
             })
         }finally{

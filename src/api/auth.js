@@ -9,4 +9,15 @@ async function login(email, password){
     return response.data;
 }
 
-export {login};
+async function signUp({name, email, password, confirmPassword}) {
+    const response = await axios.post(`${config.apiUrl}/api/auth/register`, {
+        name,
+        email,
+        password,
+        confirmPassword,
+    })
+    return response.data;
+}
+
+
+export {login, signUp};

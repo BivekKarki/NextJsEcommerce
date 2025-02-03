@@ -1,15 +1,15 @@
 'use client'
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { BsEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import { MdOutlineEmail } from 'react-icons/md'
-import { RiLockPasswordLine } from 'react-icons/ri';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import Spinner from '../Spinner';
 import Link from 'next/link';
-import { lOGIN_ROUTES } from '@/constants/routes';
+import { HOME_ROUTES, lOGIN_ROUTES } from '@/constants/routes';
 import PasswordField from './PasswordField';
+import { PASSWORD_REGEX } from '@/constants/regex';
+import { signUp } from '@/api/auth';
+import { useRouter } from 'next/navigation';
 
 function RegisterForm() {
     const {
@@ -24,13 +24,31 @@ function RegisterForm() {
     
     const password = watch("password");
 
-    function registerFormSubmit(data){
-        console.log(data);
+    const router = useRouter();
+
+    async function submitForm(data){
+        setLoading(true);
+        try {
+            const response = await signUp(data)
+            localStorage.setItem("authToken", response.token);
+            toast.success("Register successful",{
+                autoClose: 1500,
+                onClose: ()=> router.push(HOME_ROUTES),
+            });
+            setLoading(false);
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data, {
+                autoClose: 1500,
+            })
+        }finally{
+            setLoading(false);
+        }
     }
 
   return (
     <>
-        <form onSubmit={handleSubmit(registerFormSubmit)}>
+        <form onSubmit={handleSubmit(submitForm)}>
             <div className='py-2'>
                         
                 <div className='flex items-end border-b border-gray-500 dark:text-white'>
@@ -91,8 +109,18 @@ function RegisterForm() {
                         id="password" 
                         placeholder="Password" 
                         {...register("password",{
-                            required: "Password cannot be empty"
-                        })}
+                            required: "Password cannot be empty",
+                            pattern: {
+                                value: PASSWORD_REGEX,
+                                message: "Password must conatin uppercase, lowercase, numbers and special characters"
+                            },
+                            minLength: {
+                                value: 6,
+                                message: "password length must be greater than"
+                            },
+                        }
+                    
+                    )}
                     />
                     <p className='text-red-500 text-sm'>{errors.password?.message}</p>
 
@@ -102,6 +130,7 @@ function RegisterForm() {
                         placeholder="Confirm Password" 
                         {...register("confirmPassword",{
                             required: "Confirm Password cannot be empty",
+                            
                             validate:(value)=>{
                                 return value == password || "Password do not match";
                                 // value!=password?"Password do not match":true;
